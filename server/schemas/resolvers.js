@@ -10,7 +10,7 @@ const resolvers = {
           console.log(user)
           return user
         }
-        throw new AuthenticationError('You need to be logged in!');
+        throw AuthenticationError('You need to be logged in!');
       },
     },
   
@@ -24,13 +24,13 @@ const resolvers = {
         const user = await User.findOne({ email });
         console.log(email, password)
         if (!user) {
-          throw new AuthenticationError('No user found with this email address');
+          throw AuthenticationError('No user found with this email address');
         }
   
         const correctPw = await user.isCorrectPassword(password);
   
         if (!correctPw) {
-          throw new AuthenticationError('Incorrect credentials');
+          throw AuthenticationError('Incorrect credentials');
         }
   
         const token = signToken(user);
@@ -53,7 +53,7 @@ const resolvers = {
   
           return user;
         }
-        throw new AuthenticationError('You need to be logged in!');
+        throw AuthenticationError('You need to be logged in!');
       },
   
       removeBook: async (parent, { bookId }, context) => {
@@ -67,7 +67,7 @@ const resolvers = {
   
           return user;
         }
-        throw new AuthenticationError('You need to be logged in!');
+        throw AuthenticationError('You need to be logged in!');
       },
     },
   };
