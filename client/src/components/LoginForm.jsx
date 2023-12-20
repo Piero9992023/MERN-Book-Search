@@ -8,12 +8,15 @@ import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
-
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [login] = useMutation(LOGIN_USER)
+  // using the apollo hook  useMutation pass the
+  // ADD_USER mutation in order to talk to graphql
+  // addUser will hold the output and error the error
+
+  const [login, { error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,22 +35,24 @@ const LoginForm = () => {
 
     try {
       const { data } = await login({
-        variables: { ...userFormData }
-      })
-      console.log(data)
-      Auth.login(data.login.token)
-    } catch (error) {
-      console.error(error);
+        variables: { ...userFormData },
+      });
 
+      // Store the token in local storage
+      Auth.login(data.login.token);
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+      setShowAlert(true);
     }
 
-
     setUserFormData({
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     });
   };
+
 
   return (
     <>
