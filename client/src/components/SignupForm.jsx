@@ -45,7 +45,7 @@ const SignupForm = () => {
     try {
       // execute addUser mutation and pass in variable data from form
       const { data } = await addUser({
-        variables: { ...userFormData },
+        variables: { ...userFormData }
       });
       Auth.login(data.addUser.token);
       console.log(data);
